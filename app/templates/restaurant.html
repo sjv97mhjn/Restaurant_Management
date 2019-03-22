@@ -1,0 +1,61 @@
+ <div class="container-fluid">
+<div class="row" style="padding: 10px">
+	<div class="col-lg-2" style="">
+		<div ng-repeat="item in items">
+			<a ng-click="goTo($index+1)"><h3>{{item[0].cuisineName}}</h3></a>
+		</div>
+	</div>
+	<div class="col-lg-5" style="border-left: 1px solid black ; border-right: 1px solid black">
+		<div  style="overflow: scroll ; height: 648px">
+			<div ng-repeat="Item in items" id="menu{{$index+1}}">
+				<h3><strong>{{Item[0].cuisineName}}</strong></h3>
+				<hr>
+				<div ng-repeat="item in Item">
+					<div style="height: 50px">
+						<h5>
+						<strong>{{item.name}} </strong><h5> 
+						<h5 style="display: inline; ">Price : {{item.price}}</h6>
+						<div style="display : inline;" ng-if="item.customization[0]">
+							<button href="" style="display : inline; float: center ; " class="btn btn-primary" ng-click="customization($parent.$parent.$index,$parent.$index)">
+								Add Customization
+							</button>
+						</div>
+						<button class="btn btn-primary" style="float: right ; display: inline" ng-click="addToCart(item)">Add Item</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-5" >
+		<h3>Cart</h3>
+		<div ng-if="!isCartEmpty">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Items</th>
+					<th>Quantity</th>
+				</tr>	
+			</thead>
+			<tbody>
+		
+				<tr  ng-repeat="i in cart.items">
+					<td>{{i[0].name}}</td>
+					<td>{{i.length}}</td>
+				</tr>
+			</tbody>
+		
+		</table>
+		<hr>
+		<div>
+			<strong>Total Price : </strong> {{cart.totalPrice | currency : "₹" : 2}}
+		</div>
+		<a ui-sref="checkout()" class="btn btn-success">Proceed To Checkout</a>
+		</div>
+		<div ng-if="isCartEmpty">
+			<h5>Cart Is Empty !! Add some Delicious Food In :-P </h5>
+		</div>
+		</div>
+	
+</div>
+</div>
