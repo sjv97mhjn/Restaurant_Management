@@ -9,14 +9,14 @@
 		<div  style="overflow: scroll ; height: 648px">
 			<div ng-repeat="Item in items" id="menu{{$index+1}}">
 				<h3><strong>{{Item[0].cuisineName}}</strong></h3>
-				<hr>
+				<hr></hr>
 				<div ng-repeat="item in Item">
 					<div style="height: 50px">
-						<h5>
-						<strong>{{item.name}} </strong><h5> 
-						<h5 style="display: inline; ">Price : {{item.price}}</h6>
+						
+						<h5><strong>{{item.name}} </strong></h5> 
+						<h5 style="display: inline; ">Price : {{item.price}}</h5>
 						<div style="display : inline;" ng-if="item.customization[0]">
-							<button href="" style="display : inline; float: center ; " class="btn btn-primary" ng-click="customization($parent.$parent.$index,$parent.$index)">
+							<button href="" style="display : inline; float: center ; " class="btn btn-primary" ng-click="customization(item)">
 								Add Customization
 							</button>
 						</div>
@@ -35,22 +35,76 @@
 				<tr>
 					<th>Items</th>
 					<th>Quantity</th>
+					<th>Price</th>
 				</tr>	
 			</thead>
 			<tbody>
 		
-				<tr  ng-repeat="i in cart.items">
-					<td>{{i[0].name}}</td>
-					<td>{{i.length}}</td>
+				<tr  ng-repeat="i in cart.items" ng-if="checkQuantity(i.quantity,i)">
+					<!-- Confused here i.quantity getting undefined -->
+					<td>{{i.item.name}}</td>
+					<td><button class="btn btn-success btn-sm" ng-click="increaseQuantity(i)">+</button>
+							{{i.quantity}}
+						<button class="btn btn-danger btn-sm" ng-click="decreaseQuantity(i)" >-</button></td>
+					<td>{{i.item.price}}</td>
 				</tr>
 			</tbody>
 		
 		</table>
-		<hr>
-		<div>
-			<strong>Total Price : </strong> {{cart.totalPrice | currency : "₹" : 2}}
+		<hr></hr>
+		<div id="billDetails">
+			<strong>Bill Details</strong>	
+			<hr>
+
+			<div class="row">
+				<div class="col-md-4">
+					<strong> Item Price  : </strong>
+				</div>
+				<div class="col-md-4">
+					 {{cart.itemPrice | currency : "₹" : 2}}			
+				</div>
+			</div>
+			<hr>
+
+			<span>Taxes :- </span>
+			<div class="row">
+				<div class="col-md-4">
+					<strong> CGST  : </strong>		
+				</div>
+				<div class="col-md-4">
+					 {{cart.taxes.CGST | currency : "₹" : 2}}		
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<strong> SGST  : </strong>		
+				</div>
+				<div class="col-md-4">
+					 {{cart.taxes.SGST | currency : "₹" : 2}}		
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-4">
+					<strong> Fixed : </strong>
+				</div>
+				<div class="col-md-4">
+					 {{cart.taxes.fixed | currency : "₹" : 2}}		
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-4">
+					<strong>Total Price : </strong>		
+				</div>
+				<div class="col-md-4">
+			 		{{cart.totalPrice | currency : "₹" : 2}}	
+				</div>
+			</div>
+			<hr>
 		</div>
-		<a ui-sref="checkout()" class="btn btn-success">Proceed To Checkout</a>
+		<a ui-sref="checkout()" class="btn btn-success" ng-if="checkTotal()">Proceed To Checkout</a>
 		</div>
 		<div ng-if="isCartEmpty">
 			<h5>Cart Is Empty !! Add some Delicious Food In :-P </h5>

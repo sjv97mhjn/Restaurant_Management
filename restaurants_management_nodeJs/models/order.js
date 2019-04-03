@@ -18,7 +18,7 @@ var optionSchema = new mongoose.Schema({
 var customizationSchema = new mongoose.Schema({  
         label:String,
         type: String,
-        pricing: String,
+        pricing: Number,
         options:[ optionSchema]
          }) ;
 var taxesSchema = new mongoose.Schema({
@@ -43,24 +43,35 @@ var itemOrderSchema = new mongoose.Schema({
 	quantity : Number , 
 	item : itemSchema ,
 })
-
+var taxeSchema = new mongoose.Schema({
+  CGST  : Number , 
+  SGST  : Number ,
+  fixed : Number 
+})
 var restaurantSchema = new mongoose.Schema({
-        name: String,
-        description: String,
-        price: {
-          type : String , 
-          default : '200 for Two'
-        } ,
-        rating: Number,
-}) ;  
+  name: String,
+  description: String,
+  price: {
+    type : String , 
+    default : '200 for Two'
+  } ,
+  rating: Number,
+});
+
 
 var orderSchema = new mongoose.Schema({
- 	serial_number_univ : Number,
+ 	serial_number_univ : {
+    type : Number ,
+  },
  	serial_number_rest : Number,
-	customer : customerSchema ,
-	item : itemOrderSchema ,
- 	restaurant : restaurantSchema ,
- })  
+	taxes : taxeSchema,
+  customer : customerSchema,
+  itemPrice : Number,
+  totalPrice : Number,
+	items : [itemOrderSchema],
+ 	restaurant : restaurantSchema,
+  date : {type:Date,default:Date.now},
+});    
 
 var order = mongoose.model('orders',orderSchema)
 
@@ -80,7 +91,5 @@ var order = mongoose.model('orders',orderSchema)
   //           console.log(result);
   //           // res.send(result);
   //         } 
-  //       })
-        
-        
+  //       })   
 module.exports = order ; 

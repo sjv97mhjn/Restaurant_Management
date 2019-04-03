@@ -8,7 +8,7 @@ var optionSchema = new mongoose.Schema({
 var customizationSchema = new mongoose.Schema({  
         label:String,
         type: String,
-        pricing: String,
+        pricing: Number,
         options:[ optionSchema]
          }) ;
 var taxesSchema = new mongoose.Schema({
@@ -27,7 +27,8 @@ var itemSchema = new mongoose.Schema({
       description : String ,
       taxes : [taxesSchema],
       customization : [customizationSchema]
-}) ; 
+});
+
 var Items = [  
    {  
       "id":1,
@@ -54,14 +55,14 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ],
       "customization":[  
          {  
             "label":"Choose size",
             "type":"select",
-            "pricing":"set",
+            "pricing":0,
             "options":[  
                {  
                   "id":253,
@@ -78,7 +79,7 @@ var Items = [
          {  
             "label":"Choose Add ons",
             "type":"checkbox",
-            "pricing":"addon",
+            "pricing":0,
             "options":[  
                {  
                   "id":32,
@@ -119,7 +120,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -148,7 +149,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -177,7 +178,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -206,7 +207,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -235,7 +236,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -264,7 +265,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -293,7 +294,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -322,7 +323,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -351,7 +352,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -380,7 +381,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -409,7 +410,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
    },
@@ -438,7 +439,7 @@ var Items = [
             "id":439,
             "type":"fixed",
             "fixed":500,
-            "name":"test"
+            "name":"fixed"
          }
       ]
     }

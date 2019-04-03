@@ -1,0 +1,41 @@
+	
+	<div class="container">
+		
+		<label>Enter Customer Name : </label>
+		<input type="text" ng-model="asyncSelected"  
+		uib-typeahead="customer.name for customer in getOrdersCustomer($viewValue)"  class="form-control" typeahead-loading="loadingLocations" ptypeahead-no-results="noResults"
+		typeahead-on-select="mycallback($item, $model, $label)">
+			
+	</div>
+	<br>
+	<div ng-if="orders">
+	<div class="container">
+	<div>		
+		
+		<div style="display: inline-block;"> <strong >Total Price : </strong> {{totalPrice}} </div>,
+		
+		<div style="display: inline-block;"> <strong >Total Items Purchased : </strong> {{totalItemsOrders}}</div>,
+
+		<div style="display: inline-block;"> <strong>Total Orders :</strong> {{orders.length}}</div>,
+		         
+	<div class="panel-group">	
+	<div ng-repeat="o in orders.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+		<div class="panel panel-default" >
+		<div class="panel-heading">
+		<div style="display: inline;">  <strong>Restaurant Name :</strong> {{o.restaurant.name}}</div>
+
+		<div style="float: right">Order Id : {{o._id}}</div>	
+		</div>
+		<div class="panel-body" >
+		<!-- <div  style="display: inline;"> <strong>Customer Name :</strong> {{o.customer.name}}</div> -->
+			<div ng-repeat ="i in o.items">
+				<div><strong>Item Name {{$index+1}} :</strong> {{i.item.name}} , <strong>Quantity :</strong> {{i.quantity}}</div>	
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+		<ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" first-text="&laquo;" last-text="&raquo;" boundary-links="true" direction-links="true" items-per-page="itemsPerPage" 
+		></ul>
+	</div>
+	</div>

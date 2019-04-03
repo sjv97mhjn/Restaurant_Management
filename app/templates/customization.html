@@ -1,3 +1,9 @@
 <div ng-repeat=" c in item.customization">
-	
+	<form>
+		<label>{{c.label}}</label>
+		<div ng-repeat="o in c.options">
+				<input type="radio" name="o.label">{{o.name}} : {{o.price}}
+		</div>
+	</form>
 </div>
+hey is this even working !!

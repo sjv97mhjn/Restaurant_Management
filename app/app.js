@@ -12,6 +12,11 @@ var app = angular.module("app",['ui.router','ui.bootstrap']);
 				templateUrl:'./app/templates/checkout.html',
 				controller:'checkoutCtrl',
 			})
+			.state('summary',{
+				url:'/summary',
+				templateUrl:'./app/templates/summary.html',
+				controller:'summaryCtrl',
+			})
 			.state('restaurant',{
 				url:'/:id',
 				templateUrl:'./app/templates/restaurant.html',
