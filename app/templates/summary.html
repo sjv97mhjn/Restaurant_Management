@@ -1,11 +1,9 @@
 	
 	<div class="container">
-		
 		<label>Enter Customer Name : </label>
 		<input type="text" ng-model="asyncSelected"  
 		uib-typeahead="customer.name for customer in getOrdersCustomer($viewValue)"  class="form-control" typeahead-loading="loadingLocations" ptypeahead-no-results="noResults"
 		typeahead-on-select="mycallback($item, $model, $label)">
-			
 	</div>
 	<br>
 	<div ng-if="orders">

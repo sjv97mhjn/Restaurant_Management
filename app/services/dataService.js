@@ -159,6 +159,35 @@ this.getTotalItemsOfOrdersByPhone = function(phone,cb){
       cb(error,null);
     }) 
 }
+
+this.saveUser = function(user,cb){
+ $http({
+  url:"http://localhost:8081/registerUser/",
+  data : user , 
+  method : "POST"
+ })
+ .then(
+  function(result){
+    cb(null,result);
+  },
+  function(error){
+    cb(error,null);
+ }) 
+}
+this.loginUser = function(user,cb){
+ $http({
+  url:"http://localhost:8081/loginUser/",
+  data : user , 
+  method : "POST"
+ })
+ .then(
+  function(result){
+    cb(null,result);
+  },
+  function(error){
+    cb(error,null);
+ }) 
+}
 this.getCart = function(cb){
 	// return cart ;
   cb(null,cart);

@@ -1,5 +1,8 @@
-app.controller('summaryCtrl',['$scope','dataService','$http',function($scope,dataService,$http){
+app.controller('summaryCtrl',['$scope','dataService','$http','$cookies',function($scope,dataService,$http,$cookies){
   $scope.getOrdersCustomer = function(val) {
+
+  console.log($cookies.get('token'));
+  $http.defaults.headers.common['Authorization'] = $cookies.get('token');
   return $http({
   	url : "http://localhost:8081/fetchcustomers/",
   	params : {
@@ -7,7 +10,6 @@ app.controller('summaryCtrl',['$scope','dataService','$http',function($scope,dat
   	},
   	method : 'GET'
   }).then(
-
   function(result){
   	var Customer = result.data ;
   	return Customer;       
