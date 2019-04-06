@@ -227,7 +227,11 @@ app.get("/fetchcustomers",auth.required , function(req, res) {
 app.get("/fetchOrdersByCustomerPhone", function(req, res) {
 	console.log(req.query.phone);
 	// res.send("Okay");
-	order.find({ "customer.phone": req.query.phone }, function(error, result) {
+	var limit = Number(req.query.limit) ; 
+	var skip =  Number(req.query.skip) * limit ; 
+	console.log(skip);
+	console.log(limit);
+	order.find({ "customer.phone": req.query.phone }).skip(skip).limit(limit).exec(function(error, result) {
 		if (error) {
 			console.log(error);
 			res.send(error);
@@ -261,6 +265,19 @@ app.get("/fetchTotalPriceOfOrdersByPhone" , function(req,res){
       console.log(response);
   	  res.send(response);
   })      
+})
+app.get("/fetchTotalOrdersOfUserByPhone",function(req,res){
+	console.log('Am I even coming here');
+	order.count({'customer.phone':req.query.phone},function(err,result){
+		if(err){
+			console.log(err);
+			res.send(err);
+		}
+		else{
+			console.log(result);
+			res.json(result);
+		}
+	})
 })
 app.get("/fetchTotalItemsOfOrdersByPhone" , function(req,res){
 

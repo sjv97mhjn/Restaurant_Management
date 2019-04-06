@@ -1,22 +1,21 @@
 
+
 <form class="form-horizontal container">
-	<h3>Login Form</h3>
-	<label >Name</label>
-	<input class="form-control" type="text" name="name" ng-model="user.name">
+	<h3>Log In Form</h3>
 	
+	<div class="form-group">
 	<label >Email</label>
-	<input class="form-control" type="email" name="email" ng-model="user.email">
-
-<!-- 	<label >Role</label>
-	<select class="form-control" ng-model="user.role">
-		<option value="admin">Admin</option>
-		<option value="user">User</option>
-	</select> -->
-
+	<input class="form-control" type="email" name="email" ng-model="user.email">	
+	</div>
+	
+	<div class="form-group">
 	<label >Password</label>
-	<input class="form-control" type="password" name="password" ng-model="user.password">
-	<br>
+	<input class="form-control" type="password" name="password" ng-model="user.password">	
+	</div>
+	
+	<div class="form-group">
 	<button class="btn btn-primary btn-lg" ng-click="submit()">Submit</button>
+	</div>
 	<!-- 
 	<label class="form-control">Confirm Password</label>
 	<input type="password" name="password"> 

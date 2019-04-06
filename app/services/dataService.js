@@ -105,11 +105,13 @@ this.storeOrder = function(order,cb){
       cb(error,null);
     })
 }
-this.getOrdersByPhone = function(phone,cb){
+this.getOrdersByPhone = function(phone,skip,limit,cb){
   $http({
     url : "http://localhost:8081/fetchOrdersByCustomerPhone/" , 
     params : {
-      phone : phone
+      phone : phone,
+      skip : skip ,
+      limit : limit
     },
     method : "GET"
   })
@@ -126,6 +128,24 @@ this.getOrdersByPhone = function(phone,cb){
 this.getTotalPriceOfAllOrdersByPhone = function(phone,cb){
   $http({
     url : "http://localhost:8081/fetchTotalPriceOfOrdersByPhone/" , 
+    params : {
+      phone : phone
+    },
+    method : "GET"
+  })
+  .then(
+    function(result){
+      // console.log(result);
+      cb(null,result);
+    },
+    function(error){
+      console.log(error);
+      cb(error,null);
+    }) 
+}
+this.getTotalOrdersOfUserByPhone = function(phone,cb){
+    $http({
+    url : "http://localhost:8081/fetchTotalOrdersOfUserByPhone/" , 
     params : {
       phone : phone
     },

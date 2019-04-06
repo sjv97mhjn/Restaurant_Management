@@ -1,6 +1,6 @@
 	
-	<div class="container">
-		<label>Enter Customer Name : </label>
+	<div class="container" style="padding-top: 5px;">
+		<h4><label>Enter Customer Name : </label></h4>
 		<input type="text" ng-model="asyncSelected"  
 		uib-typeahead="customer.name for customer in getOrdersCustomer($viewValue)"  class="form-control" typeahead-loading="loadingLocations" ptypeahead-no-results="noResults"
 		typeahead-on-select="mycallback($item, $model, $label)">
@@ -16,8 +16,7 @@
 
 		<div style="display: inline-block;"> <strong>Total Orders :</strong> {{orders.length}}</div>,
 		         
-	<div class="panel-group">	
-	<div ng-repeat="o in orders.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+	<div ng-repeat="o in orders">
 		<div class="panel panel-default" >
 		<div class="panel-heading">
 		<div style="display: inline;">  <strong>Restaurant Name :</strong> {{o.restaurant.name}}</div>
@@ -26,14 +25,16 @@
 		</div>
 		<div class="panel-body" >
 		<!-- <div  style="display: inline;"> <strong>Customer Name :</strong> {{o.customer.name}}</div> -->
-			<div ng-repeat ="i in o.items">
-				<div><strong>Item Name {{$index+1}} :</strong> {{i.item.name}} , <strong>Quantity :</strong> {{i.quantity}}</div>	
+			<strong>Items :</strong> 
+			<div style="display: inline-block;"ng-repeat ="i in o.items">
+			<strong>{{i.item.name}}</strong>( {{i.quantity}})
+			<div style="display: inline-block;" ng-if="o.items.length > $index+1">,</div>	
 			</div>
-		</div>
+			<div><strong>Total Price : </strong> {{o.totalPrice}}</div>
+			 </div>
 	</div>
 	</div>
-	</div>
-		<ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" first-text="&laquo;" last-text="&raquo;" boundary-links="true" direction-links="true" items-per-page="itemsPerPage" 
+		<ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged(currentPage)" first-text="&laquo;" last-text="&raquo;" boundary-links="true" direction-links="true" items-per-page="itemsPerPage" 
 		></ul>
 	</div>
 	</div>

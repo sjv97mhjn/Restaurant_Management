@@ -2,7 +2,7 @@ app.controller('signupCtrl',['$scope','dataService',function($scope,dataService)
 	$scope.user=
 	{	name : 'Sajeev' ,
 		password : '1234',
-		role : ''  ,
+		role : 'admin'  ,
 		email:'sjv97mhjn@gmail.com'
 	};
 	$scope.submit = function(){
