@@ -288,7 +288,7 @@ app.get("/fetchTotalItemsOfOrdersByPhone" , function(req,res){
        {
         $project : {
             phone : '$customer.phone',
-            total : {$sum : '$items.quantity'}
+            total : { $sum : '$items.quantity' }
         } , 
       } ,{
         $group : {

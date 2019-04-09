@@ -3,12 +3,15 @@ var mongoose = require('mongoose');
 var optionSchema = new mongoose.Schema({  
                   id : String ,
                   name:String,
-                  price:Number
+                  price:Number,
+                  selected : Boolean,
                }) ;
 var customizationSchema = new mongoose.Schema({  
         label:String,
         type: String,
-        pricing: Number,
+        max : Number, 
+        min : Number,
+        disabled : Boolean, 
         options:[ optionSchema]
          }) ;
 var taxesSchema = new mongoose.Schema({

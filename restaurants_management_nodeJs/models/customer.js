@@ -56,6 +56,7 @@ customerSchema.pre("save", function(next) {
 // customerSchema.post("save", function() {
 // 	console.log("this gets printed fourth");
 // });
+
 customer = mongoose.model("customer", customerSchema);
 var myOrder = new customer({
 	name: "Sajeev Mahajan",
@@ -77,5 +78,6 @@ var myOrder = new customer({
 //     // res.send(result);
 //   }
 // })
+
 module.exports = customer;
  
