@@ -31,3 +31,4 @@
 // Pagination from backend
 // customization in add item itself
 
+//customer Summary Page
