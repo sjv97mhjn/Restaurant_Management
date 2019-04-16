@@ -49,7 +49,7 @@ module.exports = {
 	item.find({ restaurantId: req.params.id }, function(err, result) {
 		if (err) console.log(err);
 		else {
-			console.log(result);
+			// console.log(result);
 			res.json(result).status(200);
 		}
 	});

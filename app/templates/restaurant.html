@@ -1,13 +1,13 @@
  <div class="container-fluid">
 <div class="row" style="padding: 10px">
 	<div class="col-lg-2" style="">
-		<div ng-repeat="item in items">
-			<a ng-click="goTo($index+1)"><h3>{{item[0].cuisineName}}</h3></a>
+		<div ng-repeat="c in cuisines">
+			<a ng-click="goTo(c.name)"><h3>{{c.name}}</h3></a>
 		</div>
 	</div>
 	<div class="col-lg-5" style="border-left: 1px solid black ; border-right: 1px solid black">
-		<div  style="overflow: scroll ; height: 648px">
-			<div ng-repeat="Item in items" id="menu{{$index+1}}">
+		<div  style="overflow: scroll ; height: 580px">
+			<div ng-repeat="Item in items" id="menu{{Item[0].cuisineName}}">
 				<h3><strong>{{Item[0].cuisineName}}</strong></h3>
 				<hr></hr>
 				<div ng-repeat="item in Item">
@@ -15,12 +15,12 @@
 						
 						<h5><strong>{{item.name}} </strong></h5> 
 						<h5 style="display: inline; ">Price : {{item.price}}</h5>
-						<div style="display : inline;" ng-if="item.customization[0]">
+						<div style="display : inline;" ng-if="item.customization[0]"><!-- 
 							<button href="" style="display : inline; float: center ; " class="btn btn-primary" ng-click="customization(item)">
 								Add Customization
-							</button>
+							</button> -->
 						</div>
-						<button class="btn btn-primary" style="float: right ; display: inline" ng-click="addToCart(item)">Add Item</button>
+						<button class="btn btn-primary" style="float: right ; display: inline" ng-click="checkCustomization(item)">Add Item</button>
 					</div>
 				</div>
 			</div>
@@ -67,32 +67,16 @@
 			<hr>
 
 			<span>Taxes :- </span>
-			<div class="row">
-				<div class="col-md-4">
-					<strong> CGST  : </strong>		
-				</div>
-				<div class="col-md-4">
-					 {{cart.taxes.CGST | currency : "₹" : 2}}		
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<strong> SGST  : </strong>		
-				</div>
-				<div class="col-md-4">
-					 {{cart.taxes.SGST | currency : "₹" : 2}}		
-				</div>
-			</div>
+			<div ng-repeat="(key,value) in cart.taxes" class="row">
+					<div class="col-md-4">
+					<strong>{{key}} : </strong>
+					</div>
 
-
-			<div class="row">
 				<div class="col-md-4">
-					<strong> Fixed : </strong>
-				</div>
-				<div class="col-md-4">
-					 {{cart.taxes.fixed | currency : "₹" : 2}}		
+					 {{value | currency : "₹" : 2}}		
 				</div>
 			</div>
+		
 			<hr>
 			<div class="row">
 				<div class="col-md-4">

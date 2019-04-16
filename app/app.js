@@ -17,6 +17,11 @@ var app = angular.module("app",['ui.router','ui.bootstrap','ngCookies']);
 				templateUrl:'./app/templates/summary.html',
 				controller:'summaryCtrl',
 			})
+			.state('customerSummary',{
+				url:'/customerSummary',
+				templateUrl:'./app/templates/customerSummary.html',
+				controller:'customerSummaryCtrl',
+			})
 			.state('signup',{
 				url :"/signup",
 				templateUrl:'./app/templates/signup.html',
@@ -26,6 +31,16 @@ var app = angular.module("app",['ui.router','ui.bootstrap','ngCookies']);
 				url :"/login",
 				templateUrl:'./app/templates/login.html',
 				controller : 'loginCtrl'
+			})
+			.state('addRestaurant',{
+				url :"/addRestaurant",
+				templateUrl:'./app/templates/addRestaurant.html',
+				controller : 'addRestaurantCtrl'
+			})
+			.state('editMenu',{
+				url :"/editMenu/:id",
+				templateUrl:'./app/templates/editMenu.html',
+				controller : 'editMenuCtrl'
 			})
 			.state('restaurant',{
 				url:'/:id',

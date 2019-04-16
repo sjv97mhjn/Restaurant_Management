@@ -1,21 +1,29 @@
 
 var mongoose = require('mongoose');
 var optionSchema = new mongoose.Schema({  
-                  id : String ,
                   name:String,
                   price:Number,
-                  selected : Boolean,
+                  selected :{
+                     type :  Boolean , 
+                     default : false
+                  },
                }) ;
 var customizationSchema = new mongoose.Schema({  
         label:String,
         type: String,
         max : Number, 
         min : Number,
-        disabled : Boolean, 
+        pricing : {
+         type : Number , 
+         default : 0,
+        },
+        disabled : {
+         type : Boolean , 
+         default : false ,
+        }, 
         options:[ optionSchema]
          }) ;
 var taxesSchema = new mongoose.Schema({
-        id :String ,
         type : String , 
         percent : Number ,
         fixed : Number ,
@@ -23,7 +31,7 @@ var taxesSchema = new mongoose.Schema({
       });
 var itemSchema = new mongoose.Schema({
       restaurantId : mongoose.Types.ObjectId ,
-      cuisineId : Number , 
+      cuisineId : mongoose.Types.ObjectId , 
       cuisineName :String ,
       name : String ,
       price : Number ,

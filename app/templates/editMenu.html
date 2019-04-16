@@ -1,0 +1,155 @@
+ <div class="container-fluid">
+<div class="row" style="padding: 10px">
+	<div class="col-lg-2" style="">
+				
+		 <div href="#" class="btn btn-info btn-lg" ng-click="submitcuisine()">
+		        Add cuisine  <span class="glyphicon glyphicon-plus-sign"></span> 
+		 </div>
+		<div ng-repeat="c in cuisines">
+			<a ng-click="goTo($index+1)"><h3>{{c.name}}</h3></a>
+		</div>
+	</div>
+	<div class="col-lg-5" style="border-left: 1px solid black ; border-right: 1px solid black">
+		<div  style="overflow: scroll ; height: 580px">
+			 <div href="#" class="btn btn-info btn-lg" ng-click="submitItem()">
+		        Add Item  <span class="glyphicon glyphicon-plus-sign"></span> 
+		 		</div>
+			<div ng-repeat="Item in items" id="menu{{$index+1}}">
+				<h3><strong>{{Item[0].cuisineName}}</strong></h3>
+				<hr></hr>
+				<div ng-repeat="item in Item">
+					<div style="height: 50px">
+						
+						<h5><strong>{{item.name}} </strong></h5> 
+						<h5 style="display: inline; ">Price : {{item.price}}</h5>
+						<div style="display : inline;" ng-if="item.customization[0]"><!-- 
+							<button href="" style="display : inline; float: center ; " class="btn btn-primary" ng-click="customization(item)">
+								Add Customization
+							</button> -->
+						</div>
+
+						<button class="btn btn-danger" style="float: right ; display: inline" ng-click="deleteItem(item)">Delete Item</button>
+
+						
+						<button class="btn btn-success" style="float:right; display: inline ; padding-right: 15px ;" ng-click="showItem(item)">Update Item
+						</button>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-5" ng-if="updateForm">
+		<div class="container" style="overflow: scroll ; height: 580px">
+<form class="form-horizontal container">
+	
+	<h3>Update Item </h3>
+	<div class="form-group" style="max-width: 500px;">
+	<label >Name</label>
+	<input class="form-control" type="text" ng-model="item.name">
+	</div>
+	
+	<div class="form-group" style="max-width: 500px;">
+	<label >Price</label>
+	<input class="form-control" type="number" ng-model="item.price">
+	</div>
+
+	<div class="form-group" style="max-width: 500px;">
+	<label >Description</label>
+	<input class="form-control" type="text" ng-model="item.description">
+	</div>
+	<div class="form-group">
+	<label> Select cuisine</label>
+	<select class="form-control" style="max-width: 200px;" ng-model="item.cuisineName">
+		<!-- <option class="form-control" default>Select</option> -->
+		<option class="form-control" ng-repeat="c in cuisines" value="{{c.name}}">{{c.name}}</option>
+	</select>
+	</div>
+	<div ng-repeat="i in item.customization">
+		
+		<div class="form-group" style="max-width: 500px;">
+			<strong>Customization {{$index+1}}</strong><br>
+			<label >Label</label>
+			<input class="form-control" type="text" ng-model="item.customization[$index].label">
+		</div>
+		
+		<div class="form-group" style="max-width: 100px;" >
+			<label >Max Select</label>
+			<input class="form-control" type="number" ng-model="item.customization[$index].max">
+		</div>
+		
+		<div class="form-group" style="max-width: 100px;">
+			<label >Min Select</label>
+			<input class="form-control" type="number" ng-model="item.customization[$index].min">
+		</div>
+		<div ng-repeat = "o in item.customisation[$index].options">
+		<strong>Option {{$index+1}} For customization {{$parent.$index+1}}</strong>
+		<br>
+		<div class="form-group" style="max-width: 100px;">
+			<label >Name</label>
+			<input class="form-control" type="text" ng-model="item.customization[$parent.$index].options[$index].name">
+		</div>
+
+		<div class="form-group" style="max-width: 100px;">
+			<label >Price</label>
+			
+			<input class="form-control" type="number" ng-model="item.customization[$parent.$index].options[$index].price">
+		</div>
+
+		</div>
+
+		<button class="btn btn-success" ng-click="increaseOptionLength($index)">Add More Options to customization {{$index+1}}</button><br><br>
+
+
+	</div>
+		<h3>Taxes</h3>
+		<div ng-repeat = "t in item.taxes">
+			<div class="form-group" style="max-width: 100px;">
+			<label>Name</label>
+			<input type="text" ng-model=" item.taxes[$index].name">
+			</div>
+
+			<div class="form-group" style="max-width: 100px;">
+				<label>Type Of Tax</label>
+				<select class="form-control" ng-model="item.taxes[$index].type">
+					<option value="percent">Percent</option>
+					<option value="fixed">Fixed</option>
+				</select>
+			</div>
+
+			<div ng-if="item.taxes[$index].type=='percent'">
+				<label>Percent</label>
+				<input type="number" ng-model="item.taxes[$index].percent">
+			</div>
+
+
+			<div ng-if="item.taxes[$index].type=='fixed'">
+				<label>Fixed</label>
+				<input type="number" ng-model="item.taxes[$index].fixed">
+			</div>
+
+		</div>
+		<button class="btn btn-success"  ng-click="increaseTaxesLength()">Add Taxes 
+		</button>
+		<br><br>
+
+	<button class="btn btn-success"  ng-click="increaseCustomizationLength()">Add Customization</button>
+	<br><br>
+
+	
+
+
+	<button class="btn btn-primary btn-lg" ng-click="updateItem(item)" style="display: inline">Update</button>
+	
+	<button class="btn btn-danger btn-lg" ng-click="closeItem()" style="display: inline ;  right: 35px; ">Cancel Update</button>
+	
+	<br>
+	<br>
+</form>
+</div>
+	</div>
+	<div class="col-lg-5" ng-if="!updateForm">
+		<h4>Nothing To Update</h4>
+	</div>
+</div>
+</div>
+

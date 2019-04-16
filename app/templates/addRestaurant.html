@@ -1,0 +1,44 @@
+
+<div class="container">
+ <br>
+ <div href="#" class="btn btn-info btn-lg" ng-click="addRestaurant()">
+        Add Restaurant  <span class="glyphicon glyphicon-plus-sign"></span> 
+ </div>
+<br>
+<br>
+<div class="row">
+	<div ng-repeat="rest in restaurants">
+		<div class="col-lg-4" style="max-height: 230px; height: 230px;">	
+			<div class="panel panel-primary">
+				
+				<div class="panel-heading">
+					<h4>{{rest.name}}</h4>
+				</div>
+				
+				<div class="panel-body">
+					<!-- <div class="row">
+						<div class="col-sm-4"><strong>Name :</strong></div>
+						<div class="col-sm-7"><strong>{{rest.name}}</strong></div>		
+					</div> -->
+					<div class="row">
+						<div class="col-sm-5"><strong>Description:</strong></div>
+						<div class="col-sm-7"><strong>{{rest.description}}</strong></div>		
+					</div>
+					<div class="row">
+						<div class="col-sm-5"><strong>Price for two:</strong></div>
+						<div class="col-sm-7"><strong>{{rest.price}}</strong></div>		
+					</div>
+
+					<div class="row">
+						<div class="col-sm-5"><strong>Rating:</strong></div>
+						<div class="col-sm-7"><strong>{{rest.rating}}</strong></div>		
+					</div>
+					<div>
+						<a ui-sref="editMenu({id : rest._id})" class="btn btn-success" style="float: right">Edit Menu</a>
+					</div>
+				</div>
+			</div>	
+		</div>	
+	</div>
+</div>
+</div>

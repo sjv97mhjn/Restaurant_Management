@@ -27,8 +27,14 @@
 <script type="text/javascript" src="./app/controller/summary.js"></script>
 <script type="text/javascript" src="./app/controller/signup.js"></script>
 <script type="text/javascript" src="./app/controller/login.js"></script>
+<script type="text/javascript" src="./app/controller/customerSummary.js"></script>
+<script type="text/javascript" src="./app/controller/addRestaurant.js"></script>
+<script type="text/javascript" src="./app/controller/editMenu.js"></script>
+
+
 <!-- Services -->
 <script type="text/javascript" src="./app/services/dataService.js"></script>
+<script type="text/javascript" src="./app/services/adminService.js"></script>
 
 </head>
 <body ng-app="app">
@@ -39,6 +45,7 @@
 		<div class="navlist">
 			<a ui-sref="allRestaurants()"><li class="nav-li">Main Page</li></a>
 			<a ui-sref="summary()"><li class="nav-li">Orders</li></a>
+			<a ui-sref="customerSummary()"><li class="nav-li">Customers</li></a>
 			<a ui-sref="checkout()"><li class="nav-li">Checkout</li></a>
 			<a ui-sref="login()"><li class="nav-li loggin">Login</li></a>
 			<a ui-sref="signup()"><li class="nav-li loggin">SignUp</li></a>

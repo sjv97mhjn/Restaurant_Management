@@ -9,42 +9,36 @@
 			<input class="form-control" type="text" name="address" ng-model="cart.customer.name">
 			</div>
 		</div>		
-
 		<div class="form-group">
 			<label class="col-md-2 control-label">Pincode</label>
 			<div class="col-md-10">
 			<input class="form-control " type="text" name="address" ng-model="cart.customer.pincode" >
 			</div>
 		</div>
-		
 		<div class="form-group">	
 			<label class="col-md-2 control-label">Address</label>
 			<div class="col-md-10">
 			<input class="form-control" type="text" name="address" ng-model="cart.customer.address" >
 			</div>
 		</div>
-		
 		<div class="form-group">
 			<label class="col-md-2 control-label">Landmark</label>
 			<div class="col-md-10">
 				<input class="form-control" type="text" name="address" ng-model="cart.customer.landmark" >
 			</div>
 		</div>
-		
 		<div class="form-group">
 			<label class="col-md-2 control-label">City</label>
 			<div class="col-md-10">
 			<input class="form-control" type="text" name="address" ng-model="cart.customer.city" >
 			</div>
 		</div>
-		
 		<div class="form-group">
 			<label class="col-md-2 control-label">Email</label>
 			<div class="col-md-10">
 			<input class="form-control" type="email" name="address" ng-model="cart.customer.email" >
 			</div>
 		</div>
-
 		<div class="form-group">
 			<label class="col-md-2 control-label">Phone Number</label>
 			<div class="col-md-10">
@@ -65,13 +59,18 @@
 
 		 		<button style="display: block" class="btn btn-primary btn-lg" ng-click="placeOrder()">Cash On Delivery
 		 		</button><br>
-		 		<button style="display: block" class="btn btn-success btn-lg">
+		 		<button style="display: block" class="btn btn-success btn-lg"
+		 		ng-click="placeOrder()">
 		 		Debit / Credit Card
 		 		</button><br>
-		 		<button style="display: block" class="btn btn-danger btn-lg">Net Banking
+		 		<button style="display: block" class="btn btn-danger btn-lg"
+		 		ng-click="placeOrder()">Net Banking
 		 		</button><br>
-		 		<button style="display: block" class="btn btn-warning btn-lg">UPI Payment
-		 		</button><br>
+		 		<button style="display: block" class="btn btn-warning btn-lg"
+		 		ng-click="placeOrder()">UPI Payment
+		 		</button>
+
+		 		<br>
 		 	</form>
 		</div>
 </div>

@@ -1,0 +1,23 @@
+
+<div class="container">
+<h2>Customers Summary</h2>
+<div ng-repeat="c in customers" class="container">
+	<div >
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div style="display: inline;">  <strong>Customer Name :</strong> {{c.name}}</div>
+				<div style="float: right">Customer Id : {{c._id}}</div>	
+			</div>
+			<div class="panel-body">
+				<div style="display: inline-block;"><strong>Total Price :</strong>{{c.totalPrice | currency:"₹":0}}</div>
+
+				<div style="display: inline-block;"><strong>Total Orders :</strong>{{c.totalOrders}}</div>
+
+				<div style="display: inline-block;"><strong>Total Items :</strong>{{c.totalItems}}</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>

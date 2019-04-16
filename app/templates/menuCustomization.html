@@ -1,0 +1,34 @@
+			<!-- browser’s cache -->
+			<div>
+			<div class="container" style="margin : 20px;" >
+			<h2>Customize {{item.name}}</h2>
+			
+			<form>
+			<div ng-repeat=" c in item.customization">
+				<h3 >{{c.label}}</h3>	
+				<div ng-repeat="o in c.options" >
+					<input ng-disabled="checkDisable(c,o)" ng-click="manage(c,o)" ng-model="o.selected" type="checkbox" name="{{o.label}}"  value="{{o.price}}">
+						<div ng-show="!checkDisable(c,o)" style="display: inline-block;">
+						{{o.name}}  
+						<div ng-if="o.price>0" style="display: inline-block; color: grey">
+						 : Add {{o.price}}
+						 </div>
+
+						</div>
+						<strike ng-show="checkDisable(c,o)">
+							{{o.name}} : {{o.price}}
+						</strike>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-primary  btn-lg" 
+			style="display: inline" ng-click="close(item)">
+			Dismiss</button> 
+
+			<button class="btn btn-primary btn-lg" 
+			style="display: inline ; position: absolute; right: 35px; "  ng-click="submit(item)" ng-disabled="validate(item)">
+			Add Item</button> 
+			</form>
+			</div>
+			</div>
+			

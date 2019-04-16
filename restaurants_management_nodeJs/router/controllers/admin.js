@@ -6,6 +6,7 @@ var counter = require("../../models/counter");
 var customer = require("../../models/customer");
 var order = require("../../models/order");
 var user = require("../../models/user");
+var cuisine = require("../../models/cuisine");
 
 // Libraries 
 var path = require('path');
@@ -153,5 +154,86 @@ fetchTotalItemsOfOrdersByPhone : function(req,res){
       console.log(response);
       res.send(response);
   })      
-}
+},
+addRestaurant : function(req,res){
+	var myRestaurant = new restaurant(req.body);
+	myRestaurant.save(function(err,result){
+		if(err){
+			console.log(err);
+			res.sendstatus(400);
+		}
+		else{
+			console.log(result);
+			res.send(result);
+		}
+	})
+},
+addcuisine : function(req,res){
+	var mycuisine = new cuisine(req.body) ;
+	mycuisine.save(function(err,result){
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log(result);
+			res.send(result);
+		}
+
+	})
+
+},
+addItem : function(req,res){
+	var myItem = new item(req.body) ;
+	myItem.save(function(err,result){
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log(result);
+			res.send(result);
+		}
+
+	})
+
+},
+getcuisines : function(req,res){
+	cuisine.find({'restaurantId':req.query.restaurantId},function(err,result){
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log(result);
+			res.send(result);
+		}
+
+	})
+
+},
+deleteItem : function(req,res){
+	item.deleteOne({"_id":req.query.itemId},function(err,result){
+		if(err){
+			console.log(err);
+			res.send(400);
+		}
+		else
+			res.send(result);
+	})
+},
+updateItem : function(req,res){
+	var Item = req.body.item;
+	console.log('Updating Item');
+	console.log(Item);
+	item.findByIdAndUpdate(Item._id,Item,function(err,result){
+		if(err){
+			console.log(err);
+			res.send(400);
+		}
+		else{
+			console.log(result);
+			res.send(result);
+		}
+	})
+},
+
+
 }

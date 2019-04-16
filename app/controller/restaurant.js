@@ -3,14 +3,29 @@ app.controller('restaurantCtrl',
 				function($scope,dataService,$location,$anchorScroll,$stateParams,$uibModal){
 	$scope.name = "Sajeev Mahajan" ;
 	$scope.restaurantId = $stateParams.id;
+	
+	var getcuisines = function(){
+		dataService.getcuisines($scope.restaurantId,function(err,result){
+	 	if(err){
+	 		console.log(err);
+	 	}
+	 	else{
+	 		 console.log('cuisines',result.data);
+	 		$scope.cuisines = result.data;
+	 	}
+	 });	
+	}
+	getcuisines();
 	console.log($scope.restaurantId);
 	// var allItems = dataService.getAllItems() ;
 	// console.log(items); 
 	 dataService.getSortedItemsById($scope.restaurantId,function(err,result){
 	 	if(err)
 	 		console.log(err);
-	 	else
+	 	else{
 	 		$scope.items = result ;
+	 		console.log('items',$scope.items);
+	 	}
 	 });
 	$scope.isCartEmpty = true ; 
 	console.log($scope.items);
@@ -59,8 +74,19 @@ app.controller('restaurantCtrl',
 		$scope.cart.itemPrice -=i.item.price;
 		$scope.cart.totalPrice -= calcPrice(i.item,'sub');
 	}
+
+	$scope.checkCustomization = function(item){
+			if(item.customization[0]){
+				$scope.customization(item);
+			}
+			else{
+				$scope.addToCart(item);
+			}
+
+	}
 	$scope.addToCart = function(item){
-		  	console.log(item);
+
+		  	console.log('Item being added',item);
 		  	$scope.isCartEmpty = false ;
 		  	$scope.cart.items.push({
 		  		quantity : 1 ,
@@ -68,7 +94,8 @@ app.controller('restaurantCtrl',
 		  	});
 		  	$scope.cart.itemPrice = $scope.cart.itemPrice + item.price ; 
 		  	$scope.cart.totalPrice = $scope.cart.totalPrice + calcPrice(item,'add') ; 
-			dataService.updateCart($scope.cart);	
+			dataService.updateCart($scope.cart);
+			console.log('updated cart',$scope.cart);	
 	}
 	$scope.checkQuantity = function(val,item){
 		// console.log('val is',val);
@@ -82,28 +109,32 @@ app.controller('restaurantCtrl',
 					break ;
 				}
 			}
-			// Removing element from cart ;
 			Items.splice(i,1);
 			console.log($scope.cart.items);
 			return false ;
 		}   
 	}
 	function calcPrice(item,op){
+	 console.log('item in calcPrice',item);
+	 console.log('item price',item.price);
 	 var Price=0;
 	 Price += item.price ;
 	 for(var i=0;i<item.taxes.length;i++){
 	 	var price ;
-	 	
 	 	if(item.taxes[i].percent){
-	 		// console.log('Percent' ,item.taxes[i].percent)
+	 		console.log('Percent' ,item.taxes[i].percent)
 	 		price = (item.taxes[i].percent*item.price)/100;
 	 	
 	 	}
 	 	else if(item.taxes[i].fixed){
-	 		// console.log('Fixed' , item.taxes[i].fixed);
+	 		console.log('Fixed' , item.taxes[i].fixed);
 	 		price = item.taxes[i].fixed;
 	 	}
+	 	console.log('price',price);
 	 	Price+=price ;
+	 	if(!$scope.cart.taxes[item.taxes[i].name])
+	 		$scope.cart.taxes[item.taxes[i].name]=0;
+
 	 	if(op == 'add')
 	 	$scope.cart.taxes[item.taxes[i].name]+=price;
 	 	else if(op == 'sub')
@@ -129,34 +160,19 @@ app.controller('restaurantCtrl',
 					return Item ;
 				}
 			},
-			template :`
-			<div>
-			<div class="container" style="margin : 20px;">
-			<form>
-			<div ng-repeat=" c in item.customization">
-				<h3 >{{c.label}}</h3>	
-				<div ng-repeat="o in c.options">
-					<input type="radio" name="{{o.label}}" ng-model="c.pricing" value="{{o.price}}">
-						{{o.name}} : {{o.price}}
-				</div>
-			</div>
-			<button class="btn btn-primary" 
-			style="display: inline" ng-click="submit(item)">
-			Add Item</button> 
-			</form>
-			</div>
-			</div>
-			` ,
+			templateUrl :'./app/templates/menuCustomization.html' ,
 		})
 		.result.then(function(result){
+			console.log('Result Called');
+			if(result){
 			$scope.addToCart(result);
-			console.log($scope.cart);
+			console.log($scope.cart);}
 		});
 	}
 
 }]) ; 
 
-app.controller('customizationCtrl',function($scope,dataService){
+app.controller('customizationCtrl',function($scope,dataService,$uibModalInstance){
 
 	console.log($scope);     
 	$scope.item = angular.copy($scope.$resolve.item) ;
@@ -167,6 +183,67 @@ app.controller('customizationCtrl',function($scope,dataService){
 		item.price+=Price;
 	}
 	$scope.$close(item);
+	}
+	$scope.close = function(){
+		$uibModalInstance.close();
+	}
+	$scope.checkDisable = function(c,o){
+		if(c.disabled&&!o.selected)
+			return true ;
+		else
+			return false ;
+	}
+	$scope.manage = function(c , o){
+			console.log('Called Manage');
+			if(o.selected){
+				c.pricing +=o.price;
+				var count=0;
+				for(var i=0;i<c.options.length;i++){
+					if(c.options[i].selected)
+						count++;
+				}
+				console.log(count);
+				if(count>=c.max){
+					console.log('Reached Max');
+					c.disabled = true ;
+				}
+			}
+			else{
+				c.pricing -=o.price;
+					var count=0;
+				for(var i=0;i<c.options.length;i++){
+					if(c.options[i].selected)
+						count++;
+				}
+				console.log(count);
+				if(count<c.max){
+					console.log('Max Removed');
+					c.disabled = false ;
+				}
+			}
+
+
+	}
+	$scope.validate = function(item){
+		console.log('I am here');
+		console.log('item',item);	
+		var c = item.customization;
+		console.log('customization',c);
+		for(var i=0;i<c.lengh;i++){
+			console.log('Y am i not here');
+			var options = c[i].options ; 
+			console.log('options',options)
+			var count = 0;
+			for(var j=0;j<options.length;j++){
+				if(options[j].selected)
+					count++;
+			}
+			console.log('i',i);
+			console.log('count',count);
+			if(count<c[i].min||count>c[i].max)
+				return true ;
+		}
+		// return false ;
 	}
 
 })

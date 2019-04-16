@@ -10,6 +10,7 @@ var routes = {
 	}
 }
 
+// Routes Variables
 var authRoutes = routes.controllers.auth ;
 var adminRoutes = routes.controllers.admin ;
 var generalRoutes =  routes.controllers.general;
@@ -32,6 +33,12 @@ router.get("/fetchOrdersByCustomerPhone",authRoutes.auth.required ,authRoutes.is
 router.get("/fetchTotalPriceOfOrdersByPhone" ,authRoutes.auth.required ,authRoutes.isAdmin, adminRoutes.fetchTotalPriceOfOrdersByPhone);
 router.get("/fetchTotalOrdersOfUserByPhone",authRoutes.auth.required ,authRoutes.isAdmin,adminRoutes.fetchTotalOrdersOfUserByPhone);
 router.get("/fetchTotalItemsOfOrdersByPhone" ,authRoutes.auth.required ,authRoutes.isAdmin,adminRoutes.fetchTotalItemsOfOrdersByPhone);
+router.post("/addRestaurant" ,adminRoutes.addRestaurant);
+router.post("/addcuisine",adminRoutes.addcuisine);
+router.post("/addItem",adminRoutes.addItem);
+router.put("/updateItem",adminRoutes.updateItem);
+router.delete("/deleteItem",adminRoutes.deleteItem);
+router.get("/getcuisines",adminRoutes.getcuisines);
 
 //Customer Routes 
 router.post("/order",authRoutes.auth.required ,customerRoutes.createOrder);

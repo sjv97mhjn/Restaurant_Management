@@ -28,17 +28,22 @@ app.controller('checkoutCtrl',['$scope','dataService','$http',function($scope,da
 		$scope.showForm = false ;
 	}
 	$scope.placeOrder = function(){
+		if($scope.cart.items[0]){		
 		dataService.storeOrder($scope.cart,function(err,res){
-		if(err){
-			// console.log(err);
-			// alert(err);
+				if(err){
+					console.log(err);
+					 alert(err);
+				}
+				else{
+					console.log(res);
+					alert("Success");
+					// alert(res);
+				}
+			})	
 		}
 		else{
-			// console.log(res);
-			// alert(res);
+		alert("Cart Is Empty");
 		}
-	})
-
 	
 	
 	}

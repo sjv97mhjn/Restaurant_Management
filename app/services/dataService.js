@@ -1,13 +1,9 @@
-app.service('dataService',function($http){
+app.service('dataService',function($http,$cookies){
   var cart = {
       restaurant : {},
     	customer : {},
 		  items : [] ,
-      taxes : {
-          CGST : 0, 
-          SGST : 0,
-          fixed: 0
-      } ,
+      taxes : {} ,
       itemPrice : 0 ,
 		  totalPrice : 0 
 	}; 
@@ -75,13 +71,14 @@ this.getSortedItemsById = function(id,cb){
     }
     else{
       var items = result;
+      console.log('items from backend',items);
       //cb(null,items);
       var map = {} ; 
       for(var i = 0 ; i<items.length ; i++){
-        if(!map[items[i].cuisineId]){
-          map[items[i].cuisineId]=[];
+        if(!map[items[i].cuisineName]){
+          map[items[i].cuisineName]=[];
         }
-        map[items[i].cuisineId].push(items[i]);
+        map[items[i].cuisineName].push(items[i]);
       } 
        console.log(map);
         cb(null,map);
@@ -90,6 +87,7 @@ this.getSortedItemsById = function(id,cb){
 }
 
 this.storeOrder = function(order,cb){
+  $http.defaults.headers.common['Authorization'] = $cookies.get('token');
   $http({
     url : "http://localhost:8081/order/" , 
     data : order,
@@ -106,6 +104,7 @@ this.storeOrder = function(order,cb){
     })
 }
 this.getOrdersByPhone = function(phone,skip,limit,cb){
+  $http.defaults.headers.common['Authorization'] = $cookies.get('token');
   $http({
     url : "http://localhost:8081/fetchOrdersByCustomerPhone/" , 
     params : {
@@ -124,8 +123,9 @@ this.getOrdersByPhone = function(phone,skip,limit,cb){
       console.log(error);
       cb(error,null);
     }) 
-}
+};
 this.getTotalPriceOfAllOrdersByPhone = function(phone,cb){
+  $http.defaults.headers.common['Authorization'] = $cookies.get('token');
   $http({
     url : "http://localhost:8081/fetchTotalPriceOfOrdersByPhone/" , 
     params : {
@@ -144,6 +144,7 @@ this.getTotalPriceOfAllOrdersByPhone = function(phone,cb){
     }) 
 }
 this.getTotalOrdersOfUserByPhone = function(phone,cb){
+   $http.defaults.headers.common['Authorization'] = $cookies.get('token');
     $http({
     url : "http://localhost:8081/fetchTotalOrdersOfUserByPhone/" , 
     params : {
@@ -162,6 +163,7 @@ this.getTotalOrdersOfUserByPhone = function(phone,cb){
     }) 
 }
 this.getTotalItemsOfOrdersByPhone = function(phone,cb){
+  $http.defaults.headers.common['Authorization'] = $cookies.get('token');
   $http({
     url : "http://localhost:8081/fetchTotalItemsOfOrdersByPhone/" , 
     params : {
@@ -179,7 +181,22 @@ this.getTotalItemsOfOrdersByPhone = function(phone,cb){
       cb(error,null);
     }) 
 }
-
+this.getCustomerOrderDetails = function(cb){
+  $http.defaults.headers.common['Authorization'] = $cookies.get('token');
+  $http({
+    url : "http://localhost:8081/customerSummary/" , 
+    method : "GET"
+  })
+  .then(
+    function(result){
+      // console.log(result);
+      cb(null,result);
+    },
+    function(error){
+      console.log(error);
+      cb(error,null);
+    }) 
+}
 this.saveUser = function(user,cb){
  $http({
   url:"http://localhost:8081/registerUser/",
@@ -215,5 +232,21 @@ this.getCart = function(cb){
 this.updateCart = function(ct){
 	cart = ct ;
 }
+this.getcuisines = function(restaurantId,cb){
+    $http({
+      url:`http://localhost:8081/getcuisines`,
+      params : {
+        restaurantId : restaurantId ,
+      },
+      method : 'get',
+    }).then(
+    function(result){
+      console.log(result);
+      cb(null,result);
+    },function(error){
+      console.log(error);
+      cb(error);
+    })
+  };
 
 })
