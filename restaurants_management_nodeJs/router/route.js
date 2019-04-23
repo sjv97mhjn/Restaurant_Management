@@ -36,6 +36,9 @@ router.get("/fetchTotalItemsOfOrdersByPhone" ,authRoutes.auth.required ,authRout
 router.post("/addRestaurant" ,adminRoutes.addRestaurant);
 router.post("/addcuisine",adminRoutes.addcuisine);
 router.post("/addItem",adminRoutes.addItem);
+router.post("/addTax",adminRoutes.addTax);
+router.get("/taxes/:id",adminRoutes.showTaxesByRestaurant);
+router.post("/linkItemTax",adminRoutes.linkItemTax);
 router.put("/updateItem",adminRoutes.updateItem);
 router.delete("/deleteItem",adminRoutes.deleteItem);
 router.get("/getcuisines",adminRoutes.getcuisines);

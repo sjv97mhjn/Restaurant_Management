@@ -9,7 +9,7 @@ app.controller('restaurantCtrl',
 	 	if(err){
 	 		console.log(err);
 	 	}
-	 	else{
+	 	else{		
 	 		 console.log('cuisines',result.data);
 	 		$scope.cuisines = result.data;
 	 	}
@@ -27,6 +27,7 @@ app.controller('restaurantCtrl',
 	 		console.log('items',$scope.items);
 	 	}
 	 });
+	 
 	$scope.isCartEmpty = true ; 
 	console.log($scope.items);
 	

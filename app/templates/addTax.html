@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="col-lg-6">
+				<h3><strong>Add Tax</strong></h3>
+				<form>
+				<div class="form-group">
+				<label>Name</label>
+				<input class="form-control" type="text" ng-model=" tax.name">
+				</div>
+
+				<div class="form-group">
+					<label>Type Of Tax</label>
+					<select class="form-control" ng-model="tax.type">
+						<option   class="form-control"  value="percent">Percent</option>
+						<option  class="form-control" value="fixed">Fixed</option>
+					</select>
+				</div>
+
+				<div ng-if="tax.type=='percent'">
+					<label>Value in %</label>
+					<input class="form-control"  type="number" ng-model="tax.percent">
+				</div>
+
+
+				<div ng-if="tax.type=='fixed'">
+					<label>Value </label>
+					<input  class="form-control" type="number" ng-model="tax.fixed">
+				</div>
+				<br><br>	
+				<button class="btn btn-primary btn-lg" ng-click="submitAddTax()" style="display: inline">Submit</button>
+
+				<button class="btn btn-danger btn-lg" ng-click="closeAddTax()" style="display: inline ; position: absolute; right: 35px; ">Cancel</button>
+				</form>
+	</div>
+	<div class="col-lg-6">
+		<table class="table">
+				<thead>
+					<tr>
+						<th>S.No</th>
+						<th>Tax Name</th>
+						<th>Tax Value</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>			
+				</thead>
+				<tbody>
+					<tr ng-repeat = "t in taxes">
+						<td>{{$index +1}}</td>
+						<td><a ng-click="goTo($index+1)">{{t.name}}</a></td>
+						<td ng-if="t.percent">{{t.percent}} %</td>
+						<td ng-if="t.fixed">{{t.fixed}}</td>
+						<td><button class="btn btn-primary">Edit</button></td>
+						<td><button class="btn btn-danger">Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</div>
+				

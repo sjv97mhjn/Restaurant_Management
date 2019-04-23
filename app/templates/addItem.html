@@ -1,0 +1,163 @@
+<div class="container" >
+<div class="row" >
+
+	<div class="col-lg-6">
+		<h2><strong>Add / Update Item</strong> </h2>
+		<div style="overflow: scroll ; height: 500px">
+		<form class="form-horizontal container">
+			
+			
+			<div class="form-group" style="max-width: 500px;">
+			<label >Name</label>
+			<input class="form-control" type="text" ng-model="item.name">
+			</div>
+			
+			<div class="form-group" style="max-width: 500px;">
+			<label >Price</label>
+			<input class="form-control" type="number" ng-model="item.price">
+			</div>
+
+			<div class="form-group" style="max-width: 500px;">
+			<label >Description</label>
+			<input class="form-control" type="text" ng-model="item.description">
+			</div>
+			<div class="form-group">
+			<label>Select cuisine</label>
+			<select class="form-control" style="max-width: 200px;" ng-model="cuisineId" ng-click="updateCuisine()">
+				<!-- <option class="form-control" default>Select</option> -->
+				<option class="form-control" ng-repeat="c in cuisines" value="{{$index}}">{{c.name}}</option>
+			</select>
+			</div>
+			<div ng-repeat="i in customizationArray">
+				
+				<div class="form-group" style="max-width: 500px;">
+					<strong>Customization {{$index+1}}</strong><br>
+					<label >Label</label>
+					<input class="form-control" type="text" ng-model="item.customization[$index].label">
+				</div>
+				
+				<div class="form-group" style="max-width: 100px;" >
+					<label >Max Select</label>
+					<input class="form-control" type="number" ng-model="item.customization[$index].max">
+				</div>
+				
+				<div class="form-group" style="max-width: 100px;">
+					<label >Min Select</label>
+					<input class="form-control" type="number" ng-model="item.customization[$index].min">
+				</div>
+				<div ng-repeat = "o in optionObject[$index]">
+				<strong>Option {{$index+1}} For customization {{$parent.$index+1}}</strong>
+				<br>
+				<div class="form-group" style="max-width: 100px;">
+					<label >Name</label>
+					<input class="form-control" type="text" ng-model="item.customization[$parent.$index].options[$index].name">
+				</div>
+
+				<div class="form-group" style="max-width: 100px;">
+					<label >Price</label>
+					
+					<input class="form-control" type="number" ng-model="item.customization[$parent.$index].options[$index].price">
+				</div>
+
+				</div>
+
+				<button class="btn btn-success" ng-click="increaseOptionLength($index)">Add More Options to customization {{$index+1}}</button><br><br>
+
+				
+				
+			</div>
+
+			<button class="btn btn-success"  ng-click="increaseCustomizationLength()">Add Customizations</button>
+			<br><br>
+
+	<!-- 		<div ng-repeat = "t in taxesArray">
+					
+				<div class="form-group" style="max-width: 100px;">
+				<label>Name</label>
+				<input type="text" ng-model=" item.taxes[$index].name">
+				</div>
+
+				<div class="form-group" style="max-width: 100px;">
+					<label>Type Of Tax</label>
+					<select class="form-control" ng-model="item.taxes[$index].type">
+						<option value="percent">Percent</option>
+						<option value="fixed">Fixed</option>
+					</select>
+				</div>
+
+				<div ng-if="item.taxes[$index].type=='percent'">
+					<label>Percent</label>
+					<input type="number" ng-model="item.taxes[$index].percent">
+				</div>
+
+
+				<div ng-if="item.taxes[$index].type=='fixed'">
+					<label>Fixed</label>
+					<input type="number" ng-model="item.taxes[$index].fixed">
+				</div>
+
+			</div> 
+			<button class="btn btn-success"  ng-click="increaseTaxesLength()">Add Taxes 
+			</button>
+			<br><br> -->
+
+			<button class="btn btn-primary btn-lg" ng-click="submitAddItem()" style="display: inline">Submit</button>
+				
+			<button class="btn btn-danger btn-lg" ng-click="closeAddItem()" style="display: inline ; position: absolute; right: 35px; ">Cancel</button>
+				
+			<br><br>
+			
+		</form>
+	</div>
+</div>
+	<div class="col-lg-6">
+		<h2><strong>Items List</strong></h2>
+		<div style="overflow: scroll ; height: 500px">
+			
+			<div ng-repeat="Item in items" id="menu{{$index+1}}">
+				<h3><strong>{{Item[0].cuisineName}}</strong></h3>
+				<hr>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>S.No</th>
+							<th>Item Name</th>
+							<th>Item Price</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</tr>			
+					</thead>
+					<tbody>
+						<tr ng-repeat = "item in Item">
+							<td>{{$index +1}}</td>
+							<td><a ng-click="goTo($index+1)">{{item.name}}</a></td>
+							<td><a ng-click="goTo($index+1)">{{item.price}}</a></td>
+							<td>
+								<button class="btn btn-success" ng-click="showItem(item)">Update
+								</button>	
+							</td>
+							<td>
+								<button class="btn btn-danger" ng-click="deleteItem(item)">
+								Delete
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			
+	</div>	
+	</div>
+</div>
+</div>
+<!-- 
+<div class="container">
+
+
+<div class="col-lg-5" style="border-left: 1px solid black ; border-right: 1px solid black">
+		<div  style="overflow: scroll ; height: 500px">
+			
+		</div>
+	</div>
+</div> -->

@@ -23,12 +23,12 @@ var customizationSchema = new mongoose.Schema({
         }, 
         options:[ optionSchema]
          }) ;
-var taxesSchema = new mongoose.Schema({
-        type : String , 
-        percent : Number ,
-        fixed : Number ,
-        name : String 
-      });
+// var taxesSchema = new mongoose.Schema({
+//         type : String , 
+//         percent : Number ,
+//         fixed : Number ,
+//         name : String 
+//       });
 var itemSchema = new mongoose.Schema({
       restaurantId : mongoose.Types.ObjectId ,
       cuisineId : mongoose.Types.ObjectId , 
@@ -36,7 +36,7 @@ var itemSchema = new mongoose.Schema({
       name : String ,
       price : Number ,
       description : String ,
-      taxes : [taxesSchema],
+      taxes : [{ type: mongoose.Schema.ObjectId, ref: 'taxes' }],
       customization : [customizationSchema]
 });
 

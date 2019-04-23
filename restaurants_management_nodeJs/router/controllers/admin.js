@@ -2,6 +2,7 @@
 // Models 
 var restaurant = require("../../models/restaurant");
 var item = require("../../models/item");
+var tax = require("../../models/tax");
 var counter = require("../../models/counter");
 var customer = require("../../models/customer");
 var order = require("../../models/order");
@@ -196,6 +197,32 @@ addItem : function(req,res){
 	})
 
 },
+addTax : function(req,res){
+	var myTax = new tax(req.body) ;
+	myTax.save(function(err,result){
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log(result);
+			res.send(result);
+		}
+
+	})
+
+},
+showTaxesByRestaurant : function(req,res){
+	tax.find({restaurantId : req.params.id} , function(error,result){
+		if(error){
+			console.log(error);
+			res.sendstatus(400);
+		}
+		else{
+			console.log(result);
+			res.send(result);
+		}
+	})	
+},
 getcuisines : function(req,res){
 	cuisine.find({'restaurantId':req.query.restaurantId},function(err,result){
 		if(err){
@@ -234,6 +261,42 @@ updateItem : function(req,res){
 		}
 	})
 },
-
+linkItemTax : function(req,res){
+	// console.log(req.body);
+	// console.log('Hey');
+	var items = req.body.items;
+	var taxes = req.body.taxes ; 
+	var map   = req.body.map;
+	async.forEachOf(items,function(Item,key,callback){
+		// console.log(key);
+		 async.forEachOf(map[key],function(m,i,callback2){
+		 	if(m){
+		 		Item.taxes.push(taxes[i]._id);
+		 		
+		 	}
+		 	callback2();
+		 },function(err){
+		 	item.findByIdAndUpdate(Item._id,Item,function(err,result){
+		 		if(err){
+		 			console.log(err);
+		 			callback(err);
+		 		}
+		 		else{
+		 			console.log(result);
+		 			callback();
+		 		}
+		 	})
+		 })
+		 // for(var i=0;i<map[key].length;i++){
+		 // 	if(map[key][i]){
+		 // 		items[key].taxes.push(taxes[i]._id);
+		 // 		console.log(items[key]);
+		 // 	}
+		 // }
+	},function(err){
+		// console.log(items);
+	res.send(200);
+	})
+}
 
 }

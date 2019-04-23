@@ -1,0 +1,21 @@
+			<h3>Item to Tax Mapping</h3>
+			<div  style="overflow: scroll ; height: 440px">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>S.No</th>
+						<th>Item Name</th>
+						<th ng-repeat="t in taxes" align="center">{{t.name}}</th>
+					</tr>			
+				</thead>
+				<tbody >
+						<tr ng-repeat = "item in formattedItems">
+							<td>{{$index+1}}</td>
+							<td>{{item.name}}</td>
+							<td ng-repeat="t in taxes"><input type="checkbox"
+								ng-model="mapping[$parent.$index][$index]"  style=" zoom : 1.5" value="1" default="0"></td>
+						</tr>
+				</tbody>
+			</table>
+			</div>
+			<button class="btn btn-primary" ng-click="linkItemTax()">Save Changes</button>

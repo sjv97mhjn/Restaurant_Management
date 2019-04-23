@@ -1,68 +1,73 @@
 app.controller('editMenuCtrl',function($scope,dataService,adminService,$uibModal,$stateParams){
 	 $scope.restaurantId = $stateParams.id;
-	
+	 $scope.myname = "Anthony";
 	var getItems = function(){
-		dataService.getSortedItemsById($scope.restaurantId,function(err,result){
+		dataService.getSortedItemsById($scope.restaurantId,function(err,result1,result2){
 	 	console.log('Is this even running');
 	 	if(err){
 	 		console.log(err);
 	 	}
 	 	else{
-	 		console.log(result);
-	 		$scope.items = result ;
+	 		console.log(result1);
+	 		$scope.items = result1 ; 
+	 		$scope.formattedItems = result2;
+	 		$scope.mapping = new Array($scope.formattedItems.length);
+	 		var arr = [];
+	 		for(var i=0;i<$scope.formattedItems.length ;i++){
+	 			$scope.mapping[i] = new Array();
+	 		}
 	 	}
 	 });	
 	}
-	getItems();
-	 
+	getItems();	 
 	var getcuisines = function(){
 		dataService.getcuisines($scope.restaurantId,function(err,result){
 	 	if(err){
 	 		console.log(err);
 	 	}
 	 	else{
-	 		 console.log('cuisines',result.data);
+	 		console.log('cuisines',result.data);
 	 		$scope.cuisines = result.data;
 	 	}
 	 });	
 	}
 	getcuisines();
-	 	 
-	 $scope.submitcuisine = function(){
-	 	$uibModal.open({
-			animation : true ,
-			scope : $scope ,
-			controller : 'addUIBcuisineCtrl',
-			resolve : {
-				restaurantId : function(){
-					return $scope.restaurantId ;
-				}
-			},
-			template : `
-							<div class="container">
-							<form class="form-horizontal container">
-								
-								<h3>Add cuisine </h3>
-								
-								<div class="form-group" style="max-width: 500px;">
-								<label >Name</label>
-								<input class="form-control" type="text" ng-model="cuisine.name">
-								</div>
-								
-								<button class="btn btn-primary btn-lg" ng-click="submitcuisine()" style="display: inline">Submit</button>
-								
-								<button class="btn btn-danger btn-lg" ng-click="close()" style="display: inline ; position: absolute; right: 35px; ">Cancel</button>
-								
-								<br>
-								<br>
-							</form>
-							</div>
-			`, 
-		})
-		.result.then(function(cuisine){
-			console.log('Result Called');
-			if(cuisine){
-						adminService.addcuisine(cuisine,function(error,result){
+	var gettaxes = function(){
+		adminService.getTaxesById($scope.restaurantId,function(err,result){
+	 	if(err){
+	 		console.log(err);
+	 	}
+	 	else{
+	 		console.log('Taxes',result.data);
+	 		$scope.taxes = result.data;
+	 	}
+	 });	
+	}
+	gettaxes();
+//===================Cuisines============================================
+	 $scope.showCuisineForm =false;
+	 $scope.cuisine = {
+	 	name : '',
+	 	restaurantId : $scope.restaurantId
+	 };
+	 
+	 $scope.showCuisine = function(){
+	 	$scope.closeAll();
+	 	console.log('Showing Cuisisne Form');
+	 	$scope.showCuisineForm =true ;
+	 	$scope.addItemForm = false ;
+	 	$scope.showTaxForm = false ;
+	 
+	 
+	 }
+	 $scope.closeCuisine = function(){
+	 	console.log('close Cusine');
+	 	$scope.showCuisineForm =false ; 	
+	 }
+	 $scope.submitCuisine = function(){
+
+			if($scope.cuisine){
+						adminService.addcuisine($scope.cuisine,function(error,result){
 					 		if(error)
 					 			console.log(error);
 					 		else{
@@ -71,29 +76,88 @@ app.controller('editMenuCtrl',function($scope,dataService,adminService,$uibModal
 					 		}
 					 	});
 				}
-		})
+			$scope.closeCuisine();
+	 		getcuisines();
 	 }
 
-	 $scope.submitItem = function(){
-	 	$uibModal.open({
-			animation : true ,
-			scope : $scope ,
-			controller : 'addUIBItemCtrl',
-			resolve : {
-				restaurantId : function(){
-					return $scope.restaurantId ;
-				},
-				cuisines : function(){
-					return $scope.cuisines;
-				}
-			},
-			templateUrl : './app/templates/editUIBMenu.html', 
-		})
-		.result.then(function(item){
-			console.log('Result Called');
-			if(item){
-				console.log('Item in Result Callback',item);
-					adminService.addItem(item,function(error,result){
+//================Add Item==================================================
+	 $scope.customizationArray = [] ;
+	 $scope.taxesArray = [] ;
+	 $scope.optionObject = {};
+	 $scope.cuisineId = 0 ; 
+	 //Validation ==============================================
+	if($scope.cuisines&&$scope.cuisines.length<=0){
+	 	alert("No Cusines Created Yet");
+	 	$scope.$close();
+	 }  
+	 //=========================================================
+	 else{
+	 	
+	 $scope.item = {
+	 	name : '',
+	 	restaurantId : $scope.restaurantId,
+	 	price : '',
+	 	description : '',
+	 	cuisineId :'',
+	 	cuisineName :'',
+	 	customization : [],
+	 	taxes : []
+	};
+
+	} 
+	 
+	$scope.updateCuisine = function(){
+		console.log('Here to change Cuisine');
+		$scope.item.cuisineId = $scope.cuisines[$scope.cuisineId]._id;
+	 	$scope.item.cuisineName = $scope.cuisines[$scope.cuisineId].name;
+	 	
+	}
+	 $scope.getNumber = function(num) {
+	 console.log('num',num);
+     return new Array(num);   
+	}
+	$scope.increaseOptionLength=function(num){
+		console.log($scope.cuisineId);
+		console.log($scope.item.cuisineName);
+	 	$scope.optionObject[num].push($scope.optionObject[num].length);
+	}
+	 $scope.increaseCustomizationLength=function(){
+	 	$scope.customizationArray.push($scope.customizationArray.length);
+		$scope.item.customization[$scope.customizationArray.length-1]={};
+	 	$scope.item.customization[$scope.customizationArray.length-1].options=[];
+	 	$scope.optionObject[$scope.customizationArray.length-1]=["1"];
+	 	console.log('customization Array',$scope.customizationArray);
+	 	console.log('Option Object',$scope.optionObject);
+	 }
+	 $scope.increaseTaxesLength=function(){
+	 	$scope.taxesArray.push($scope.taxesArray.length);
+	 	console.log('Taxes Array',$scope.taxesArray);
+	 };
+	
+	 $scope.isCusines = function(){
+	 	if($scope.cuisines&&$scope.cuisines.length>0){
+	 		return true;
+	 	}
+	 	else
+	 		return false;
+	 }
+	 $scope.addItemForm = false ;
+	 
+	 $scope.showAddItem = function(){
+	 	$scope.closeAll();
+	 $scope.showTaxForm = false ;
+	 $scope.showCuisineForm =false ; 
+	 $scope.addItemForm = true ;
+	 }
+	 
+	 $scope.closeAddItem = function(){
+	 $scope.addItemForm = false ;
+	 }
+
+	 $scope.submitAddItem = function(){	 	
+	 	console.log('Submit Addition Of Item');
+			if($scope.item){
+				adminService.addItem($scope.item,function(error,result){
 					 		if(error)
 					 			console.log(error);
 					 		else{
@@ -102,7 +166,9 @@ app.controller('editMenuCtrl',function($scope,dataService,adminService,$uibModal
 					 		}
 					 	});
 				}
-		})
+
+			$scope.closeAddItem();
+			getItems();
 	 }
 	 $scope.deleteItem = function(item){
 	 	console.log(item);
@@ -117,6 +183,7 @@ app.controller('editMenuCtrl',function($scope,dataService,adminService,$uibModal
 	 }
 	 $scope.updateForm = false;
 	 $scope.showItem = function(item){
+
 	 	console.log('Item to be updated' , item);
 	 	$scope.item = item ;
 	 	$scope.updateForm = true ;
@@ -136,68 +203,98 @@ app.controller('editMenuCtrl',function($scope,dataService,adminService,$uibModal
 	 	})
 	 $scope.closeItem();
 	 }
-	
+//=============Tax=======================================================
 
-})
-app.controller('addUIBcuisineCtrl',function($scope){
-	 $scope.cuisine = {
+	 $scope.showTaxForm =false;
+	 $scope.tax = {
 	 	name : '',
-	 	restaurantId : $scope.$resolve.restaurantId
+	 	restaurantId : $scope.restaurantId
 	 };
-	 $scope.submitcuisine = function(){
-	 	$scope.$close($scope.cuisine);
-	 };
-	 $scope.close = function(){
-	 	$scope.$close();
-	 };
-})
-
-app.controller('addUIBItemCtrl',function($scope){
-	 $scope.cuisines = $scope.$resolve.cuisines;
-	 $scope.customizationArray = [] ;
-	 $scope.taxesArray = [] ;
-	 $scope.optionObject = {};
-	 console.log($scope.$resolve);
-	 console.log('cuisines 2',$scope.cuisines);
-	 console.log('rest 2',$scope.$resolve.restaurantId);
-	 $scope.cuisineId = 0 ; 
-	 $scope.item = {
-	 	name : '',
-	 	restaurantId : $scope.$resolve.restaurantId,
-	 	price : '',
-	 	description : '',
-	 	cuisineId : $scope.cuisines[$scope.cuisineId]._id,
-	 	cuisineName : $scope.cuisines[$scope.cuisineId].name,
-	 	customization : [],
-	 	taxes : []
-
-	 };
-	 $scope.getNumber = function(num) {
-	 console.log('num',num);
-     return new Array(num);   
-	}
-	$scope.increaseOptionLength=function(num){
-	 	$scope.optionObject[num].push($scope.optionObject[num].length);
-	}
-	 $scope.increaseCustomizationLength=function(){
-	 	$scope.customizationArray.push($scope.customizationArray.length);
-		$scope.item.customization[$scope.customizationArray.length-1]={};
-	 	$scope.item.customization[$scope.customizationArray.length-1].options=[];
-	 	$scope.optionObject[$scope.customizationArray.length-1]=["1"];
-	 	console.log('customization Array',$scope.customizationArray);
-	 	console.log('Option Object',$scope.optionObject);
+	 
+	 $scope.showAddTax = function(){
+	 	$scope.closeAll();
+	 	console.log('Showing Tax Form');
+	 	$scope.showTaxForm = true ;
+	 	$scope.showCuisineForm = false ;
+	 	$scope.addItemForm = false ;
+	 
 	 }
-	 $scope.increaseTaxesLength=function(){
-	 	$scope.taxesArray.push($scope.taxesArray.length);
-	 	console.log('Taxes Array',$scope.taxesArray);
-	 };
-	 $scope.submitItem = function(){
-	 	console.log('Item',$scope.item);
-	 	$scope.$close($scope.item);
-	 	console.log('')
-	 };
-	 $scope.close = function(){
-	 	$scope.$close();
-	 };
+	 $scope.closeAddTax = function(){
+	 	console.log('close Taxes');
+	 	$scope.showTaxForm = false ; 	
+	 }
+	 $scope.submitAddTax = function(){
+	 		console.log($scope.tax);
+			if($scope.tax){
+						adminService.addTax($scope.tax,function(error,result){
+					 		if(error)
+					 			console.log(error);
+					 		else{
+					 			getcuisines();
+					 			console.log(result);
+					 		}
+					 	});
+				}
+			$scope.closeAddTax();
+	 		gettaxes();
+	 }
+ 
+//Link Item with  Taxes ========================================================
+	// LIT Link Item With Tax 
+$scope.showLITForm = false ; 
+// Manipulate items
 
+
+$scope.mapping = [];
+ $scope.showLIT = function(){
+ 	$scope.closeAll();
+	 	console.log('Showing Tax Form');
+	 	console.log($scope.mapping);
+	 	$scope.showLITForm = true ;
+	 	$scope.showTaxForm = false ;
+	 	$scope.showCuisineForm = false ;
+	 	$scope.addItemForm = false ;
+	 
+}
+$scope.linkItemTax = function(){
+	adminService.linkItemTax($scope.formattedItems,$scope.taxes,$scope.mapping,function(error,result){
+		if(error)
+			console.log(error);
+		else
+			console.log(result);
+	})
+}
+//==============================================================================
+
+	$scope.closeAll = function(){
+		$scope.showLITForm = false ;
+		$scope.showTaxForm = false ; 
+		$scope.showCuisineForm = false ; 
+		$scope.addItemForm = false ; 
+	}
+
+})
+
+//Directives ==============================================
+
+app.directive("addCuisine",function(){
+	return {
+		templateUrl : "./app/templates/addCuisine.html",
+	};
+})
+
+app.directive("addItem",function(){
+	return {
+		templateUrl : "./app/templates/addItem.html",
+	};
+})
+app.directive("addTax",function(){
+	return {
+		templateUrl : "./app/templates/addTax.html",
+	};
+})
+app.directive("linkItemTax",function(){
+	return {
+		templateUrl : "./app/templates/linkItemTax.html",
+	};
 })

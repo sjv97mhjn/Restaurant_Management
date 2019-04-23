@@ -1,7 +1,7 @@
-<div class="container">
+<!-- 		<div class="container" style="overflow: scroll ; height: 580px">
 <form class="form-horizontal container">
 	
-	<h3>Add Item </h3>
+	<h3>Update Item </h3>
 	<div class="form-group" style="max-width: 500px;">
 	<label >Name</label>
 	<input class="form-control" type="text" ng-model="item.name">
@@ -17,13 +17,13 @@
 	<input class="form-control" type="text" ng-model="item.description">
 	</div>
 	<div class="form-group">
-	<label>Select cuisine</label>
-	<select class="form-control" style="max-width: 200px;" ng-model="cuisineId">
-		<!-- <option class="form-control" default>Select</option> -->
-		<option class="form-control" ng-repeat="c in cuisines" value="{{$index}}">{{c.name}}</option>
+	<label> Select cuisine</label>
+	<select class="form-control" style="max-width: 200px;" ng-model="item.cuisineName">
+	
+		<option class="form-control" ng-repeat="c in cuisines" value="{{c.name}}">{{c.name}}</option>
 	</select>
 	</div>
-	<div ng-repeat="i in customizationArray">
+	<div ng-repeat="i in item.customization">
 		
 		<div class="form-group" style="max-width: 500px;">
 			<strong>Customization {{$index+1}}</strong><br>
@@ -40,7 +40,7 @@
 			<label >Min Select</label>
 			<input class="form-control" type="number" ng-model="item.customization[$index].min">
 		</div>
-		<div ng-repeat = "o in optionObject[$index]">
+		<div ng-repeat = "o in item.customisation[$index].options">
 		<strong>Option {{$index+1}} For customization {{$parent.$index+1}}</strong>
 		<br>
 		<div class="form-group" style="max-width: 100px;">
@@ -58,8 +58,10 @@
 
 		<button class="btn btn-success" ng-click="increaseOptionLength($index)">Add More Options to customization {{$index+1}}</button><br><br>
 
-		<div ng-repeat = "t in taxesArray">
-			
+
+	</div>
+		<h3>Taxes</h3>
+		<div ng-repeat = "t in item.taxes">
 			<div class="form-group" style="max-width: 100px;">
 			<label>Name</label>
 			<input type="text" ng-model=" item.taxes[$index].name">
@@ -85,23 +87,21 @@
 			</div>
 
 		</div>
+	
+
+	<button class="btn btn-success"  ng-click="increaseCustomizationLength()">Add Customization</button>
+	
 		<button class="btn btn-success"  ng-click="increaseTaxesLength()">Add Taxes 
 		</button>
 		<br><br>
 
-	</div>
 
-	<button class="btn btn-success"  ng-click="increaseCustomizationLength()">Add Customization</button>
-	<br><br>
-
+	<button class="btn btn-primary btn-lg" ng-click="updateItem(item)" style="display: inline">Update</button>
 	
-
-
-	<button class="btn btn-primary btn-lg" ng-click="submitItem()" style="display: inline">Submit</button>
-	
-	<button class="btn btn-danger btn-lg" ng-click="close()" style="display: inline ; position: absolute; right: 35px; ">Cancel</button>
+	<button class="btn btn-danger btn-lg" ng-click="closeItem()" style="display: inline ;  right: 35px; ">Cancel Update</button>
 	
 	<br>
 	<br>
 </form>
-</div>
+</div> -->
+Fuck Off

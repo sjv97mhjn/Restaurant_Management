@@ -1,0 +1,46 @@
+<div class="container" >
+<div class="row">
+	<div class="col-lg-6">
+		<form class="form-horizontal container">
+			<h3>Add cuisine </h3>
+
+			<div class="form-group" style="max-width: 500px;">
+			<label >Name</label>
+			<input class="form-control" type="text" ng-model="cuisine.name">
+			</div>
+
+			<button class="btn btn-primary btn-lg" ng-click="submitCuisine()" style="display: inline ;  position: absolute; left: 15px;"  >Submit</button>
+
+			<button class="btn btn-danger btn-lg" ng-click="closeCuisine()" style="display: inline ; position: absolute; right: 70px; ">Cancel</button><!-- 
+			<br>
+			<br> -->
+		</form>	
+	</div>
+	<div class="col-lg-6">
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th>S.No</th>
+						<th>Cuisine Name</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>			
+				</thead>
+				<tbody>
+					<tr ng-repeat = "c in cuisines">
+						<td>{{$index +1}}</td>
+						<td><a ng-click="goTo($index+1)">{{c.name}}</a></td>
+						<td><button class="btn btn-primary">Edit</button></td>
+						<td><button class="btn btn-danger">Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
+		
+			
+		<div ng-repeat="c in cuisines">
+			
+		</div>
+	</div>
+</div>
+</div> 

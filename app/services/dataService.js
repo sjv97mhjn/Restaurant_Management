@@ -81,7 +81,7 @@ this.getSortedItemsById = function(id,cb){
         map[items[i].cuisineName].push(items[i]);
       } 
        console.log(map);
-        cb(null,map);
+        cb(null,map,items);
     }
   });
 }
