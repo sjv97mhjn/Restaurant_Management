@@ -18,9 +18,9 @@ var routes = require("./router/route");
 app.use(cors());
 app.use(bodyParser());
 mongoose.connect("mongodb://localhost:27017/mydb");
+app.use(express.static("../"+__dirname));
 
 app.use("/",routes);
-
 //=======================TESTING=============================================
 app.get("/test/:id",function(req,res){
 	order.count(function(err,result){

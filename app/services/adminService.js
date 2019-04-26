@@ -2,7 +2,7 @@ app.service('adminService',function($http){
 	var currentRestaurant = null ;
 	this.addRestaurant = function(rest,cb){
 		$http({
-			url:`http://localhost:8081/addRestaurant`,
+			url:`http://localhost:8081/restaurant`,
 			data : rest,
 			method : 'post',
 		}).then(
@@ -13,17 +13,19 @@ app.service('adminService',function($http){
 			console.log(error);
 			cb(error);
 		})
-	} ;
+	};
+
 	this.setRestaurant = function(rest){
 		currentRestaurant = rest;
-	} ;
+	};
 
 	this.getRestaurant = function(){
 		return currentRestaurant ;
 	};
+
 	this.addcuisine = function(cuisine,cb){
 		$http({
-			url:`http://localhost:8081/addcuisine`,
+			url:`http://localhost:8081/cuisine`,
 			data : cuisine,
 			method : 'post',
 		}).then(
@@ -35,9 +37,10 @@ app.service('adminService',function($http){
 			cb(error);
 		})
 	};
+	
 	this.addItem = function(item,cb){
 		$http({
-			url:`http://localhost:8081/addItem`,
+			url:`http://localhost:8081/item`,
 			data : item,
 			method : 'post',
 		}).then(
@@ -48,11 +51,11 @@ app.service('adminService',function($http){
 			console.log(error);
 			cb(error);
 		})
-	};
+	}; 
 
 	this.deleteItem = function(itemId,cb){
 		$http({
-			url:`http://localhost:8081/deleteItem`,
+			url:`http://localhost:8081/item`,
 			params :{
 				itemId : itemId,
 			},
@@ -65,10 +68,11 @@ app.service('adminService',function($http){
 			console.log(error);
 			cb(error);
 		})	
-	}; 
+	};
+	 
 	this.updateItem = function(item,cb){
 		$http({
-			url:`http://localhost:8081/updateItem`,
+			url:`http://localhost:8081/item/`,
 			data :{
 				item : item,
 			},
@@ -82,9 +86,10 @@ app.service('adminService',function($http){
 			cb(error);
 		})	
 	}
+
 	this.addTax = function(tax,cb){
 		$http({
-			url:`http://localhost:8081/addTax`,
+			url:`http://localhost:8081/tax`,
 			data : tax,
 			method : 'post',
 		}).then(
@@ -96,9 +101,10 @@ app.service('adminService',function($http){
 			cb(error);
 		})
 	};
+
 	this.getTaxesById = function(id,cb){
 		$http({
-			url:`http://localhost:8081/taxes/` + id,
+			url:`http://localhost:8081/tax/` + id,
 			method : 'get',
 		}).then(
 		function(result){
@@ -111,7 +117,7 @@ app.service('adminService',function($http){
 	};
 	this.linkItemTax = function(items,taxes,map,cb){
 		$http({
-			url:`http://localhost:8081/linkItemTax`,
+			url:`http://localhost:8081/item/linkItemTax`,
 			data : {
 				items : items , 
 				taxes : taxes , 

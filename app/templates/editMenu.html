@@ -1,7 +1,13 @@
  <div class="container">
 <div class="row" style="padding: 10px">
-				
-		<div href="#" class="btn btn-info btn-lg" ng-click="showCuisine()">
+		<ul class="nav nav-tabs">
+  <li ><a ng-click="showCuisine()" >Cusines</a></li>
+  <li><a ng-click="showAddItem()" ng-show="isCusines()">Items</a></li>
+  <li><a ng-click="showAddTax()" ng-show="isCusines()">Taxes</a></li>
+  <li><a ng-click="showLIT()" ng-show="isCusines()">Item-Taxes</a></li>
+</ul>	
+<!-- 
+		<div href="#" class="btn btn-info btn-lg" >
 		        Add cuisine  <span class="glyphicon glyphicon-plus-sign"></span> 
 		</div>
 	 	
@@ -15,7 +21,7 @@
 
 		<div href="#" class="btn btn-info btn-lg" ng-click="showLIT()" ng-show="isCusines()">
 	        Link Item-Tax  <span class="glyphicon glyphicon-plus-sign"></span>
-	 	</div>
+	 	</div> -->
 			
 			<div ng-show="showCuisineForm" add-cuisine >
 			</div>

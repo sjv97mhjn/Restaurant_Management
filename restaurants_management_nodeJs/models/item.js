@@ -36,7 +36,7 @@ var itemSchema = new mongoose.Schema({
       name : String ,
       price : Number ,
       description : String ,
-      taxes : [{ type: mongoose.Schema.ObjectId, ref: 'taxes' }],
+      taxes : [{ type: mongoose.Schema.ObjectId, ref: 'Taxes' }],
       customization : [customizationSchema]
 });
 

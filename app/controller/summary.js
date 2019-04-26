@@ -3,20 +3,7 @@ app.controller('summaryCtrl',['$scope','dataService','$http','$cookies',function
 
   console.log($cookies.get('token'));
   $http.defaults.headers.common['Authorization'] = $cookies.get('token');
-  return $http({
-  	url : "http://localhost:8081/fetchcustomers/",
-  	params : {
-  		customer : val ,
-  	},
-  	method : 'GET'
-  }).then(
-  function(result){
-  	var Customer = result.data ;
-  	return Customer;       
-  },
-  function(err){
-  	console.log(err);
-  });
+  return dataService.fetchCustomer(val);
   };
       
 

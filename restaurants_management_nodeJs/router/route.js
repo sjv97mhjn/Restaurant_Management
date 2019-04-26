@@ -1,49 +1,14 @@
 var express = require("express");
+var app = express();
 var router = express.Router();
 
-var routes = {
-	controllers: {
-		auth: require("./controllers/auth"),
-		general: require("./controllers/general"),
-		admin: require("./controllers/admin"),
-		customer: require("./controllers/customer"),
-	}
-}
 
-// Routes Variables
-var authRoutes = routes.controllers.auth ;
-var adminRoutes = routes.controllers.admin ;
-var generalRoutes =  routes.controllers.general;
-var customerRoutes = routes.controllers.customer ;
+router.use("/restaurant" , require("./controllers/restaurant/index"));
+router.use("/item" , 	   require("./controllers/item/index"));
+router.use("/order" , 	   require("./controllers/order/index"));
+router.use("/tax" , 	   require("./controllers/tax/index"));
+router.use("/cuisine" ,    require("./controllers/cuisine/index"));
+router.use("/" ,    require("./controllers/user/index"));
 
-//Authentication
-router.post("/registerUser",authRoutes.auth.optional ,authRoutes.register);
-router.post("/loginUser",authRoutes.auth.optional , authRoutes.login);
-
-// General Routes or User Routes
-router.get("/allrestaurants",generalRoutes.allrestaurants);
-router.get("/allitems",generalRoutes.allitems);
-router.get("/restaurant/:id", generalRoutes.restaurantById);
-router.get("/item/:id", generalRoutes.itemById);
-
-//Admin Routes
-router.get("/customerSummary",authRoutes.auth.required ,authRoutes.isAdmin, adminRoutes.customerSummary );
-router.get("/fetchcustomers" ,authRoutes.auth.required ,authRoutes.isAdmin, adminRoutes.fetchCustomer  );
-router.get("/fetchOrdersByCustomerPhone",authRoutes.auth.required ,authRoutes.isAdmin, adminRoutes.fetchOrdersByCustomerPhone);
-router.get("/fetchTotalPriceOfOrdersByPhone" ,authRoutes.auth.required ,authRoutes.isAdmin, adminRoutes.fetchTotalPriceOfOrdersByPhone);
-router.get("/fetchTotalOrdersOfUserByPhone",authRoutes.auth.required ,authRoutes.isAdmin,adminRoutes.fetchTotalOrdersOfUserByPhone);
-router.get("/fetchTotalItemsOfOrdersByPhone" ,authRoutes.auth.required ,authRoutes.isAdmin,adminRoutes.fetchTotalItemsOfOrdersByPhone);
-router.post("/addRestaurant" ,adminRoutes.addRestaurant);
-router.post("/addcuisine",adminRoutes.addcuisine);
-router.post("/addItem",adminRoutes.addItem);
-router.post("/addTax",adminRoutes.addTax);
-router.get("/taxes/:id",adminRoutes.showTaxesByRestaurant);
-router.post("/linkItemTax",adminRoutes.linkItemTax);
-router.put("/updateItem",adminRoutes.updateItem);
-router.delete("/deleteItem",adminRoutes.deleteItem);
-router.get("/getcuisines",adminRoutes.getcuisines);
-
-//Customer Routes 
-router.post("/order",authRoutes.auth.required ,customerRoutes.createOrder);
 
 module.exports = router;
